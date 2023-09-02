@@ -1,0 +1,365 @@
+
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+<!-- Production version -->
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<style>
+  .tooltip {
+    background: #ffffff;
+    display: none;
+    min-width:311px;
+    position:relative;
+    z-index:2;
+  }
+
+  .tooltip[data-show] {
+    display: block;
+  }
+
+  #arrow,
+  #arrow::before {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: inherit;
+  }
+
+  #arrow {
+    visibility: hidden;
+  }
+
+  #arrow::before {
+    visibility: visible;
+    content: '';
+    transform: rotate(45deg);
+  }
+
+  .tooltip[data-popper-placement^='top'] > #arrow {
+    bottom: -4px;
+  }
+
+  .tooltip[data-popper-placement^='bottom'] > #arrow {
+    top: -4px;
+  }
+
+  .tooltip[data-popper-placement^='left'] > #arrow {
+    right: -4px;
+  }
+
+  .tooltip[data-popper-placement^='right'] > #arrow {
+    left: -4px;
+  }
+  @media(max-width:767px){
+    .tooltip {
+      min-width:198px;
+    }
+  }
+</style>
+
+
+<div class="custom-grid-container no-pd-custom" id="con"> 
+    <div class="container">
+        {%- if section.settings.title != blank -%}
+            <header class="section__header">
+              <h2 class="section__title heading h3">{{ section.settings.title | escape }}</h2>
+      
+              {%- unless section.settings.link_title == blank -%}
+                <a href="{{ blog.url }}" class="section__action-link link">{{ section.settings.link_title }} {% render 'icon', icon: 'tail-right' %}</a>
+              {%- endunless -%}
+            </header>
+          {%- endif -%}
+        <ul class="custom-grid-list" data-flickity='{ "cellAlign": "left", "contain": true,"groupCells": true,"wrapAround": true,"pageDots": false  }' >
+            {% for block in section.blocks%}
+            <li class="custom-grid-item">
+                <div class="custom-grid-box">
+                    {%if block.settings.image !=blank%}
+                    <img src="{{block.settings.image | img_url:""}}" alt="{{block.settings.image }}"/>
+                    {%endif%}
+                    {% if block.settings.hotspots1%}
+                    <div id="button" aria-describedby="tooltip" class="pulsating-circle " style="top:{{block.settings.vertical_range}}%;left:{{block.settings.horizontal_range}}%;">
+                        {% assign newproduct = block.settings.product%}
+                        <div class="tooltip" role="tooltip">
+                        <div class="product-detail-box"> 
+                            <a class="product-detail-box-inner" href="{{newproduct.url}}">
+                            <div class="product-detail-img">
+                          <img src="{{ newproduct.featured_image.src | img_url: '' }}" alt="{{ product.title }}" />
+                            </div>
+                            <div class="product-detail-content">
+                                <h5>{{ block.settings.Category_text }}</h5>
+                          <h2>{{ newproduct.title }}</h2>
+                          <span>{{newproduct.price | money }}</span>
+                            </div>
+                        </a>
+                        </div>
+                        <div  id="arrow" data-popper-arrow></div>
+                      </div>
+                    </div>
+                    
+                      
+                      
+                    
+                    {%endif%} 
+                    {% if block.settings.hotspots2%}
+                        <div id="button1" aria-describedby="tooltip"  class="pulsating-circle "  style="top:{{block.settings.vertical_range2}}%;left:{{block.settings.horizontal_range2}}%;">
+                            {% assign newproduct2 = block.settings.product2%}
+                            <div data-show style="transform: translate3d(-146.5px, -26px, 0px);" class="tooltip bydefault-open" role="tooltip">
+                            <div class="product-detail-box">
+                                <a class="product-detail-box-inner" href="{{newproduct2.url}}">
+                                <div class="product-detail-img">
+                              <img src="{{ newproduct2.featured_image.src | img_url: '' }}" alt="{{ product2.title }}" />
+                                </div>
+                                <div class="product-detail-content">
+                                                                  <h5>{{ block.settings.Category_text2 }}</h5>
+                              <h2>{{ newproduct2.title }}</h2>
+                              <span>{{newproduct2.price | money }}</span>  
+                                </div>
+                            </a>
+                          </div>
+                          <div  id="arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                    {%endif%}
+                    {% if block.settings.hotspots3%}
+                        <div  aria-describedby="tooltip"  class="pulsating-circle " style="top:{{block.settings.vertical_range3}}%;left:{{block.settings.horizontal_range3}}%;">
+                        
+                            {% assign newproduct3 = block.settings.product3%}
+                            <div class="tooltip" role="tooltip">
+                            <div class="product-detail-box">
+                                <a class="product-detail-box-inner" href="{{newproduct3.url}}">
+                                <div class="product-detail-img">
+                              <img src="{{ newproduct3.featured_image.src | img_url: '' }}" alt="{{ product3.title }}" />
+                                </div>
+                                <div class="product-detail-content">
+                                <h5>{{ block.settings.Category_text3 }}</h5>
+                              <h2>{{ newproduct3.title }}</h2>
+                              <span>{{newproduct3.price | money }}</span>
+                                </div>
+                            </a>  
+                          </div>
+                          <div  id="arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                    {%endif%}
+
+                </div>
+            </li> 
+            {%endfor%}
+        </ul>
+    </div>
+</div>
+<script>
+  const buttons = document.querySelectorAll('.pulsating-circle');
+  const tooltips = document.querySelectorAll('.tooltip');
+  const widths = document.querySelectorAll('.con');
+
+  const popperInstances = [];
+
+  buttons.forEach((button, index) => {
+    const tooltip = tooltips[index];
+    const width = widths[index];
+ 
+    const popperInstance = Popper.createPopper(button, tooltip, {
+      modifiers: [
+        { 
+          name: 'offset',
+          container: width,
+          options: {
+            offset: [0, 8],
+          },
+        },
+      ],
+    });
+
+    popperInstances.push(popperInstance);
+
+    function show() {
+      tooltip.setAttribute('data-show', '');
+
+      popperInstance.setOptions((options) => ({
+        ...options,
+        modifiers: [
+          ...options.modifiers,
+          { name: 'eventListeners', enabled: true },
+        ],
+      }));
+
+      popperInstance.update();
+    }
+
+    function hide() {
+      tooltip.removeAttribute('data-show');
+
+      popperInstance.setOptions((options) => ({
+        ...options,
+        modifiers: [
+          ...options.modifiers,
+          { name: 'eventListeners', enabled: false },
+        ],
+      }));
+    }
+
+    const showEvents = ['mouseenter', 'focus'];
+    const hideEvents = ['mouseleave', 'blur'];
+
+    showEvents.forEach((event) => {
+      button.addEventListener(event, show);
+    });
+
+    hideEvents.forEach((event) => {
+      button.addEventListener(event, hide);
+    });
+  });
+</script>
+{% schema %}
+{
+"name": "Custom grid Slider",
+"settings": [
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Room Ideas"
+      },
+      {
+        "type": "text",
+        "id": "link_title",
+        "label": "Link title",
+        "default": "View all"
+      }
+],
+"blocks": [
+   {
+     "name": "Slide",
+     "type": "slide",
+     "settings": [
+       {
+         "type": "image_picker",
+         "id": "image",
+         "label": "Image"
+       },
+       {
+        "type": "text",
+        "id": "Category_text",
+        "label": "Category Title"
+      },
+       {
+        "type":"checkbox",
+        "id":"hotspots1",
+        "label":"Add First Hotspot and Product",
+        "default":false
+      }, 
+       {
+        "id": "product",
+        "type": "product",
+        "label": "Chose a product"
+      },
+
+       {
+        "type": "range",
+        "id": "vertical_range",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "unit": "%",
+        "label": "Vertical Position",
+        "default": 5
+      }, 
+      { 
+        "type": "range",
+        "id": "horizontal_range",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "unit": "%",
+        "label": "Horizontal Position",
+        "default": 15
+      },
+      {
+        "type": "text",
+        "id": "Category_text2",
+        "label": "Category Title"
+      },
+      {
+        "type":"checkbox",
+        "id":"hotspots2",
+        "label":"Add Second Hotspot and Product",
+        "default":false
+      }, 
+       { 
+        "id": "product2",
+        "type": "product",
+        "label": "Chose a product"
+      },
+
+       {
+        "type": "range",
+        "id": "vertical_range2",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "unit": "%",
+        "label": "Vertical Position",
+        "default": 5
+      },
+      {
+        "type": "range",
+        "id": "horizontal_range2",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "unit": "%",
+        "label": "Horizontal Position",
+        "default": 5
+      },
+      {
+        "type": "text",
+        "id": "Category_text3",
+        "label": "Category Title"
+      },
+      {
+        "type":"checkbox",
+        "id":"hotspots3",
+        "label":"Add Third Hotspot and Product",
+        "default":false
+      }, 
+       { 
+        "id": "product3",
+        "type": "product",
+        "label": "Chose a product"
+      },
+
+       {
+        "type": "range",
+        "id": "vertical_range3",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "unit": "%",
+        "label": "Vertical Position",
+        "default": 5
+      },
+      {
+        "type": "range",
+        "id": "horizontal_range3",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "unit": "%",
+        "label": "Horizontal Position",
+        "default": 5
+      }
+     ]
+   } 
+],
+"presets": [
+{
+"name": "Custom grid Slider",
+"category": "ADVANCED LAYOUT"
+}
+]
+}
+{% endschema %}
+{% stylesheet %}
+{% endstylesheet %}
+{% javascript %}
+{% endjavascript %} 
