@@ -20,31 +20,7 @@
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
 
-{% comment %} Set Cannonical to Parent on Child Products (SellersDash) {% endcomment %}
-{% assign shsd_shop_settings = shop.metafields.sellersdash.shsd_settings %}
-{%- if shsd_shop_settings.set_cannonical_on_children and template contains "product" -%}
-{%- assign shsd_product_details = product.metafields.sellersdash.shsdproducts -%}
-{% if shsd_product_details.product_type == "shsd_child" %}
-<link rel="cannonical" href="{{shop.url}}/products/{{shsd_product_details.parent_handle}}">
-{%- elsif canonical_url != blank -%}
-<link rel="canonical" href="{{ canonical_url }}">
-{%- endif -%}
-{%- else -%}
-{%- if canonical_url != blank -%}
-<link rel="canonical" href="{{ canonical_url }}">
-{%- endif -%}
-{%- endif -%}
-
-{% comment %} Redirect to parent from child if option turned on(SellersDash) {% endcomment %}
-{% assign shsd_shop_settings = shop.metafields.sellersdash.shsd_settings %}
-
-{% if shsd_shop_settings.redirect_to_parent_product and template contains "product" %}
-{%- assign shsd_product_details = product.metafields.sellersdash.shsdproducts -%}
-{% if shsd_product_details.product_type == "shsd_child" %}
-<script> window.location.href = "{{shop.url}}/products/{{shsd_product_details.parent_handle}}";</script>
-{% endif %}
-{% endif %}
-    
+    <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon -%}
       <link rel="shortcut icon" href="{{ settings.favicon | img_url: '96x96' }}" type="image/png">
@@ -161,5 +137,8 @@
     <ul hidden>
       <li id="a11y-new-window-message">{{ 'general.accessibility.new_window' | t }}</li>
     </ul>
+
+    {{ 'ajaxinate.min.js' | asset_url | script_tag }}
+
   </body>
 </html>

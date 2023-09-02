@@ -1,23 +1,4 @@
-{% comment %} SellersDash collect child product details {% endcomment %}
-{% assign shsd_product_details = product.metafields.sellersdash.shsdproducts %}
-{% if shsd_product_details.product_type == "shsd_parent" %}
-{% assign shsd_product_handles = product.handle %}
-{% assign shsd_product_handles = shsd_product_handles | concat: shsd_product_details.handles %}
-{% for shsd_handle in shsd_product_handles %}
-{% assign shsd_single_product = all_products[shsd_handle] %}
-{% assign shsd_product_variants = shsd_product_variants | concat: shsd_single_product.variants %}
-{% assign shsd_product_media = shsd_product_media | concat: shsd_single_product.media %}
-{% assign shsd_product_images = shsd_product_images | concat: shsd_single_product.images %}
-{% endfor %}
-{% assign shsd_product_options_with_values = shsd_product_details.options_with_values %}
-{% else %}
-{% assign shsd_product_options_with_values = product.options_with_values %}
-{% assign shsd_product_variants = product.variants %}
-{% assign shsd_product_media = product.media %}
-{% assign shsd_product_images = product.images %}
-{% endif %}
-
-{%- if shsd_product_media.size > 0 -%}
+{%- if product.media.size > 0 -%}
   {%- assign show_thumbnails_if_one_media = true -%}
 
   <div class="card">
@@ -26,8 +7,8 @@
         {%- assign selected_media = product.selected_variant.featured_media | default: product.featured_media -%}
 
         <div class="product-gallery__carousel-wrapper">
-          <div class="product-gallery__carousel {% if template != 'product.quick-view' and section.settings.enable_image_zoom %}product-gallery__carousel--zoomable{% endif %}" data-media-count="{{ shsd_product_media.size }}" data-initial-media-id="{{ selected_media.id }}">
-            {%- for media in shsd_product_media -%}
+          <div class="product-gallery__carousel {% if template != 'product.quick-view' and section.settings.enable_image_zoom %}product-gallery__carousel--zoomable{% endif %}" data-media-count="{{ product.media.size }}" data-initial-media-id="{{ selected_media.id }}">
+            {%- for media in product.media -%}
               {%- assign is_media_group = false -%}
               {%- assign is_media_filtered = false -%}
               {%- assign media_alt = media.alt -%}
@@ -109,7 +90,7 @@
           </div>
 
           {%- comment -%}Add the "view in your space" button, which allows to show the product in customer's environment (if the device supports it){%- endcomment -%}
-          {%- assign first_3d_model = shsd_product_media | where: 'media_type', 'model' | first -%}
+          {%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
 
           {%- if first_3d_model -%}
             <button class="product-gallery__view-in-space button button--full" data-shopify-xr data-shopify-model3d-id="{{ first_3d_model.id }}" data-shopify-model3d-default-id="{{ first_3d_model.id }}" data-shopify-title="{{ product.title | escape }}" data-shopify-xr-hidden>
@@ -130,7 +111,7 @@
           <div class="scroller">
             <div class="scroller__inner">
               <div class="product-gallery__thumbnail-list">
-                {%- for media in shsd_product_media -%}
+                {%- for media in product.media -%}
                   {%- assign is_media_group = false -%}
                   {%- assign is_media_filtered = false -%}
                   {%- assign media_alt = media.alt -%}

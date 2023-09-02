@@ -448,9 +448,6 @@
                           {%- assign product_results = search.results | where: 'object_type', 'product' -%}
 
                           {%- for product in product_results -%}
-                            {% if product.tags contains "shsdchildproduct" %}
-                            {% continue %}
-                            {% endif %}
                             {%- render 'product-item', product: product, list: show_as_list, grid_classes: grid_classes -%}
                           {%- endfor -%}
                           

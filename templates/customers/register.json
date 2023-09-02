@@ -1,1 +1,11 @@
-{"sections":{"main":{"type":"main-customers-register","settings":{"image":"shopify:\/\/shop_images\/Group_6232.png"}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-customers-register",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
