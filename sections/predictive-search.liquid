@@ -25,9 +25,6 @@
         {%- assign clean_terms = predictive_search.terms | split: ' AND ' | last | remove_first: '*' -%}
 
         {%- for product in predictive_search.resources.products -%}
-          {% if product.tags contains "shsdchildproduct" %}
-          {% continue %}
-          {% endif %}
           <a href="{{ product.url }}" class="search-bar__result-item">
             <div class="search-bar__image-container">
               <div class="aspect-ratio aspect-ratio--square">

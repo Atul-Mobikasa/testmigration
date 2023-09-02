@@ -1,1 +1,36 @@
-{"type":"header","name":"Header group","sections":{"announcement-bar":{"type":"announcement-bar","disabled":true,"settings":{"background":"#1e2d7d","text_color":"#ffffff","text":"Announce something here","text_position":"left","link":"","show_newsletter":true,"newsletter_button":"Subscribe & Save","newsletter_title":"Newsletter","newsletter_content":"<p>A short sentence describing what someone will receive by subscribing<\/p>"}},"header":{"type":"header","blocks":{"f714629d-d9c2-42da-a5b5-bfa828f898cc":{"type":"mega_menu","settings":{"menu_item":"Chairs","image_1":"shopify:\/\/shop_images\/Mask_group_3.png","image_1_heading":"Dining Room","image_1_text":"Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod temp","image_1_link":"","image_2_heading":"Your image","image_2_text":"Tell your story","image_2_link":""}},"c18d5bc8-3578-4457-8dd2-8ae4731beed9":{"type":"mega_menu","settings":{"menu_item":"Barstools","image_1":"shopify:\/\/shop_images\/Mask_group_3.png","image_1_heading":"Dining Room","image_1_text":"Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod temp","image_1_link":"","image_2_heading":"Your image","image_2_text":"Tell your story","image_2_link":""}},"e3b31889-0133-46f6-989b-0fef4a706a8c":{"type":"mega_menu","settings":{"menu_item":"Booths","image_1":"shopify:\/\/shop_images\/Mask_group_3.png","image_1_heading":"Dining Room","image_1_text":"Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod temp","image_1_link":"","image_2_heading":"Your image","image_2_text":"Tell your story","image_2_link":""}},"e5bbb4d9-2b01-45d0-aebd-a5fa3f9f15e9":{"type":"mega_menu","settings":{"menu_item":"Tables","image_1":"shopify:\/\/shop_images\/Mask_group_3.png","image_1_heading":"Dining Room","image_1_text":"Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod temp","image_1_link":"","image_2_heading":"Your image","image_2_text":"Tell your story","image_2_link":""}}},"block_order":["f714629d-d9c2-42da-a5b5-bfa828f898cc","c18d5bc8-3578-4457-8dd2-8ae4731beed9","e3b31889-0133-46f6-989b-0fef4a706a8c","e5bbb4d9-2b01-45d0-aebd-a5fa3f9f15e9"],"settings":{"enable_sticky_header":true,"logo":"shopify:\/\/shop_images\/Logo_Name_Left.png","logo_max_width":175,"mobile_logo_max_width":140,"show_locale_selector":true,"show_country_selector":false,"navigation_menu":"new-menu","navigation_mobile_menu":"","desktop_navigation_layout":"inline","desktop_navigation_open_trigger":"hover","show_navigation_social_media":true,"navigation_phone_number":"Call us 000-000-0000","navigation_email":"info@yourwebsite.com","show_condensed_search":true,"show_search_filter":true,"search_menu":"","show_search_menu_title":true}}},"order":["announcement-bar","header"]}
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "background": "#1e2d7d",
+        "text_color": "#ffffff",
+        "text": "Announce something here",
+        "link": "",
+        "newsletter_button": "Subscribe & Save",
+        "newsletter_title": "Newsletter",
+        "newsletter_content": "<p>A short sentence describing what someone will receive by subscribing<\/p>"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo": "",
+        "logo_max_width": 140,
+        "mobile_logo_max_width": 100,
+        "navigation_menu": "main-menu",
+        "desktop_navigation_layout": "inline",
+        "desktop_navigation_open_trigger": "hover",
+        "navigation_phone_number": "Call us 000-000-0000",
+        "navigation_email": "info@yourwebsite.com",
+        "search_menu": ""
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

@@ -1,26 +1,7 @@
-{% comment %} SellersDash collect child product details {% endcomment %}
-{% assign shsd_product_details = product.metafields.sellersdash.shsdproducts %}
-{% if shsd_product_details.product_type == "shsd_parent" %}
-{% assign shsd_product_handles = product.handle %}
-{% assign shsd_product_handles = shsd_product_handles | concat: shsd_product_details.handles %}
-{% for shsd_handle in shsd_product_handles %}
-{% assign shsd_single_product = all_products[shsd_handle] %}
-{% assign shsd_product_variants = shsd_product_variants | concat: shsd_single_product.variants %}
-{% assign shsd_product_media = shsd_product_media | concat: shsd_single_product.media %}
-{% assign shsd_product_images = shsd_product_images | concat: shsd_single_product.images %}
-{% endfor %}
-{% assign shsd_product_options_with_values = shsd_product_details.options_with_values %}
-{% else %}
-{% assign shsd_product_options_with_values = product.options_with_values %}
-{% assign shsd_product_variants = product.variants %}
-{% assign shsd_product_media = product.media %}
-{% assign shsd_product_images = product.images %}
-{% endif %}
-
 {%- assign selected_variant = product.selected_or_first_available_variant -%}
 {%- assign product_form_id = 'product_form_' | append: section.id | append: product.id -%}
 
-<div class="card {% if shsd_product_media.size > 0 %}card--collapsed{% endif %} {% if template.name == 'product' %}card--sticky{% endif %}">
+<div class="card {% if product.media.size > 0 %}card--collapsed{% endif %} {% if template.name == 'product' %}card--sticky{% endif %}">
   {%- if section.settings.enable_image_zoom -%}
     <div id="product-zoom-{{ section.id }}" class="product__zoom-wrapper"></div>
   {%- endif -%}
@@ -117,11 +98,11 @@
     {
       "product": {{ product | json }},
       "template": {{ product.template_suffix | json }},
-      "options_with_values": {{ shsd_product_options_with_values | json }},
+      "options_with_values": {{ product.options_with_values | json }},
       "selected_variant_id": {{ selected_variant.id }}
       {%- if variant_selector_block.settings.show_inventory_quantity -%}
         ,"inventories": {
-          {%- for variant in shsd_product_variants -%}
+          {%- for variant in product.variants -%}
             {%- if variant.inventory_management -%}
               {%- if variant.available and variant.inventory_management -%}
                 {%- if variant.inventory_quantity <= 0 and variant.requires_shipping -%}
@@ -164,17 +145,3 @@
     }
   </script>
 </div>
-
-
-{% if shsd_product_details.product_type == "shsd_parent" %}
-<script>
-var shsd_data = JSON.parse(document.querySelector("[data-product-json]").innerHTML);
-var shsd_original_product_js = shsd_data["product"];
-shsd_original_product_js["variants"] = {{shsd_product_variants | json }};
-shsd_original_product_js["options_with_values"] = {{shsd_product_options_with_values | json }};
-shsd_original_product_js["images"] = {{shsd_product_images | json }};
-shsd_original_product_js["media"] = {{shsd_product_media | json }};
-shsd_data["product"] = shsd_original_product_js;
-document.querySelector("[data-product-json]").innerHTML = JSON.stringify(shsd_data);
-</script>
-{% endif %}
